@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: lightblue;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.logo {
+  grid-column: 1 / 2;
+  align-self: center;
+  padding: 18px;
+  font-size: 3rem;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+}
+
+.nav-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column: 3 / 4;
+  gap: 18px;
+  align-self: center;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.sidebar {
+  grid: 1 / 2;
+  background-color: rgb(250, 250, 175);
+}
+
+.main-stage {
+  grid: 2 / 3;
+  background-color: lightpink;
+}
