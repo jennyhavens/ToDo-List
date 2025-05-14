@@ -29,6 +29,31 @@ nav {
   align-self: center;
 }
 
+button:hover {
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(5px);
+}
+
+.task-dialog {
+  width: min(50vw, 460px);
+  align-self: center;
+  justify-self: center;
+}
+
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 0px;
+}
+
 .content {
   display: grid;
   grid-template-columns: 1fr 5fr;

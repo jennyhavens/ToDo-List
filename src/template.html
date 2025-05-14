@@ -14,15 +14,13 @@
           <button class="reminders">Reminders</button>
           <button class="add-task">Add Task</button>
           <dialog class="task-dialog">
-            <form action="" id="newTaskForm" class="new-task-form">
+            <form action="" id="addTaskForm" class="add-task-form">
               <label class="labels" for="title">Title</label>
               <input
                 class="inputs"
                 id="title"
                 type="text"
                 placeholder="Pay bills"
-                value=""
-                required
               />
               <label class="labels" for="description">Description</label>
               <input
@@ -30,29 +28,44 @@
                 id="description"
                 type="text"
                 placeholder="pay water and credit card bills"
-                value=""
               />
               <label class="labels" for="due-date">Due Date</label>
-              <input
-                class="inputs"
-                id="due-date"
-                type="date"
-                value=""
-                required
-              />
-              <label class="labels" for="priority">Priority</label>
-              <input
-                class="inputs"
-                id="priority"
-                type="number"
-                min="1"
-                max="3"
-                value=""
-                required
-              />
+              <input class="inputs" id="due-date" type="date" />
+              <p>Priority level:</p>
+              <form action="" id="priorityLevels" class="priority-levels">
+                <input
+                  class="inputs"
+                  name="priority"
+                  id="low"
+                  type="radio"
+                  value="low"
+                />
+                <label for="low">low</label>
+                <input
+                  class="inputs"
+                  name="priority"
+                  id="medium"
+                  type="radio"
+                  value="medium"
+                />
+                <label for="medium">medium</label>
+                <input
+                  class="inputs"
+                  name="priority"
+                  id="high"
+                  type="radio"
+                  value="high"
+                />
+                <label for="high">high</label>
+              </form>
               <label class="labels" for="notes">Notes</label>
-              <input class="inputs" id="notes" type="text" value="" required />
-              <input class="submit" type="submit" value="Create Task" />
+              <input class="inputs" id="notes" type="text" />
+              <div class="form-buttons">
+                <button class="buttons" id="submitButton" type="submit">
+                  Add Task
+                </button>
+                <button class="buttons" id="closeDialog">Close</button>
+              </div>
             </form>
           </dialog>
         </div>
