@@ -109,52 +109,50 @@
 //   }
 // }
 
-function createNewTask() {
-  const taskDialog = document.querySelector(".task-dialog");
+import { Card } from "./task-card";
+import { displayCards } from "./task-card";
 
-  const addTaskButton = document.querySelector(".add-task");
+const taskDialog = document.querySelector(".task-dialog");
+const addTaskButton = document.querySelector(".add-task");
+const closeDialog = document.querySelector("#closeDialog");
+const title = document.querySelector("#title");
+const description = document.querySelector("#description");
+const dueDate = document.querySelector("#dueDate");
+const priority = document.querySelector("#priority");
+const notes = document.querySelector("#notes");
+
+function createNewTask() {
   addTaskButton.addEventListener("click", () => {
     taskDialog.showModal();
   });
 
-  const closeDialog = document.querySelector("#closeDialog");
   closeDialog.addEventListener("click", (event) => {
     event.preventDefault();
     taskDialog.close();
   });
 
-  const addTaskForm = document.getElementById("addTaskForm");
-  addTaskForm.addEventListener("submit", (event) => {
+  submitButton.addEventListener("click", (event) => {
     event.preventDefault();
+    let taskTitle = title.value;
+    let taskDescription = description.value;
+    let taskDueDate = dueDate.value;
+    let taskPriority = priority.value;
+    let taskNotes = notes.value;
+    dashboard.addTask(
+      new Card(taskTitle, taskDescription, taskDueDate, taskPriority, taskNotes)
+    );
 
-    if (event.target.closest("#addTaskForm")) {
-      let title = document.getElementById("title").value;
-      console.log(title);
+    /* input reset */
+    title.value = "";
+    description.value = "";
+    dueDate.value = "";
+    priority.value = "";
+    notes.value = "";
 
-      let description = document.getElementById("description").value;
-      console.log(description);
-
-      let dueDate = document.getElementById("dueDate").value;
-      console.log(dueDate);
-
-      let priority = document.getElementById("priority").value;
-      console.log(priority);
-
-      let notes = document.getElementById("notes").value;
-      console.log(notes);
-
-      const task = new Task(title, description, dueDate, priority, notes);
-      const card = new Card(task);
-    }
-
-    newTaskForm.reset();
+    /* make hidden */
+    displayCards();
+    dialogForm.close();
   });
-}
-
-export function formatDate(date) {
-  date = parseISO(date);
-  const formattedDate = format(date, "MMMM do");
-  return formattedDate;
 }
 
 // submitButton.addEventListener("click", (event) => {
