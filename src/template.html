@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDo List</title>
   </head>
+
   <body>
     <header>
       <nav>
@@ -13,6 +14,7 @@
           <button class="profile">Profile</button>
           <button class="reminders">Reminders</button>
           <button class="add-task">Add Task</button>
+
           <dialog class="task-dialog">
             <form action="" id="addTaskForm" class="add-task-form">
               <label class="labels" for="title">Title</label>
@@ -21,6 +23,7 @@
                 id="title"
                 type="text"
                 placeholder="Pay bills"
+                required
               />
               <label class="labels" for="description">Description</label>
               <input
@@ -30,7 +33,7 @@
                 placeholder="pay water and credit card bills"
               />
               <label class="labels" for="due-date">Due Date</label>
-              <input class="inputs" id="due-date" type="date" />
+              <input class="inputs" id="due-date" type="date" required />
               <p>Priority level:</p>
               <form action="" id="priorityLevels" class="priority-levels">
                 <input
