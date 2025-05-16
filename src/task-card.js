@@ -6,14 +6,18 @@ const taskForm = document.getElementById("taskForm");
 const taskList = document.getElementById("taskList");
 
 // Open dialog
-openDialogBtn.onclick = () => {
-  taskDialog.showModal();
-};
+if (openDialogBtn) {
+  openDialogBtn.onclick = () => {
+    taskDialog.showModal();
+  };
+}
 
 // Close dialog
-closeDialogBtn.onclick = () => {
-  taskDialog.close();
-};
+if (closeDialogBtn) {
+  closeDialogBtn.onclick = () => {
+    taskDialog.close();
+  };
+}
 
 // Add task event listener
 taskForm.onsubmit = (event) => {
@@ -31,18 +35,80 @@ taskForm.onsubmit = (event) => {
     return;
   }
 
-  // Create task element
-  const taskDiv = document.createElement("div");
-  taskDiv.className = "task";
-  taskDiv.innerHTML = `
-        <h3>${title}</h3>
-        <h4>${priority}</h4>
-        <p>${description}</p>
-        <p>Due: ${dueDate}</p>
-        <p>Notes: ${notes}</p>
-        <button class="edit">Edit</button>
-        <button class="delete">Delete</button>
-    `;
+  function createTaskElement(title, description, dueDate, priority, notes) {
+    const taskDiv = document.createElement("div");
+    taskDiv.className = "task";
+    taskDiv.dataset.title = title;
+    taskDiv.dataset.description = description;
+    taskDiv.dataset.dueDate = dueDate;
+    taskDiv.dataset.priority = priority;
+    taskDiv.dataset.notes = notes;
+
+    const titleElement = document.createElement("h3");
+    titleElement.textContent = title;
+    taskDiv.appendChild(titleElement);
+
+    const descriptionElement = document.createElement("h4");
+    descriptionElement.textContent = description;
+    taskDiv.appendChild(descriptionElement);
+
+    const dueDateElement = document.createElement("p");
+    dueDateElement.textContent = dueDate;
+    taskDiv.appendChild(dueDateElement);
+
+    const notesElement = document.createElement("p");
+    notesElement.textContent = notes;
+    taskDiv.appendChild(notesElement);
+
+    const editButton = document.createElement("button");
+    editButton.className = "edit";
+    editButton.textContent = "edit";
+    taskDiv.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "delete";
+    deleteButton.textContent = "delete";
+    taskDiv.appendChild(deleteButton);
+
+    return taskDiv;
+  }
+
+  const taskDiv = createTaskElement(
+    title,
+    description,
+    dueDate,
+    priority,
+    notes
+  );
+  //   const taskDiv = document.createElement("div");
+  //   taskDiv.className = "task";
+  //   taskDiv.innerHTML = ""; // Clear existing content
+
+  //   const titleElement = document.createElement("h3");
+  //   titleElement.textContent = title; // Safely add title
+  //   taskDiv.appendChild(titleElement);
+
+  //   const descriptionElement = document.createElement("h4");
+  //   descriptionElement.textContent = description; // Safely add title
+  //   taskDiv.appendChild(descriptionElement);
+
+  //   const dueDateElement = document.createElement("p");
+  //   dueDateElement.textContent = dueDate; // Safely add title
+  //   taskDiv.appendChild(dueDateElement);
+
+  //   const notesElement = document.createElement("p");
+  //   notesElement.textContent = notes; // Safely add title
+  //   taskDiv.appendChild(notesElement);
+
+  //   const editButton = document.createElement("button");
+  //   editButton.className = "edit";
+  //   editButton.textContent = "edit";
+  //   taskDiv.appendChild(editButton);
+
+  //   const deleteButton = document.createElement("button");
+  //   deleteButton.className = "delete";
+  //   deleteButton.textContent = "delete";
+  //   taskDiv.appendChild(deleteButton);
 
   // Add event listener for delete buttons
   taskDiv.querySelector(".delete").onclick = () => {
@@ -56,7 +122,6 @@ taskForm.onsubmit = (event) => {
     document.getElementById("dueDate").value = dueDate;
     document.getElementById("priority").value = priority;
     document.getElementById("notes").value = notes;
-    taskDiv.remove(); // Remove the task while editing
     taskDialog.showModal(); // Open dialog for editing
   };
 
@@ -67,3 +132,5 @@ taskForm.onsubmit = (event) => {
   taskForm.reset();
   taskDialog.close();
 };
+
+export { taskList };

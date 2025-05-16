@@ -1,5 +1,9 @@
+import { taskList } from "./task-card.js";
+
 const mainStage = document.createElement("div");
-mainStage.classList.add("main-stage");
-mainStage.textContent = "Main Stage";
+mainStage.className = "main-stage";
+mainStage.textContent = "Your Tasks";
+
+mainStage.appendChild(taskList);
 
 export { mainStage };
