@@ -1,4 +1,4 @@
-import { taskList } from "./task-card.js";
+import "./task-card.js";
 
 const mainStage = document.createElement("div");
 mainStage.className = "main-stage";
