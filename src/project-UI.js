@@ -46,12 +46,13 @@ export class ProjectUI {
     projectDiv.className = "project";
     projectDiv.dataset.index = index;
 
-    const nameElement = document.createElement("h3");
+    const nameElement = document.createElement("button");
+    nameElement.className = "project-name";
     nameElement.textContent = project.projectName;
     projectDiv.appendChild(nameElement);
 
     const editProject = document.createElement("button");
-    editProject.className = "edit";
+    editProject.className = "edit-project";
     editProject.textContent = "edit";
     editProject.onclick = () => {
       this.projectManager.setEditIndex(index);
@@ -60,17 +61,19 @@ export class ProjectUI {
     };
     projectDiv.appendChild(editProject);
 
-    const addTaskToProject = document.createElement("button");
-    addTaskToProject.className = "add-task";
-    addTaskToProject.textContent = "add task";
-    addTaskToProject.onclick = () => {
+    const addTask = document.createElement("button");
+    addTask.className = "add-task";
+    addTask.textContent = "add task";
+    addTask.onclick = () => {
       const taskDialog = document.getElementById("taskDialog");
+      const taskForm = document.getElementById("taskForm");
       taskDialog.showModal();
+      taskForm.reset();
     };
-    projectDiv.appendChild(addTaskToProject);
+    projectDiv.appendChild(addTask);
 
     const deleteProject = document.createElement("button");
-    deleteProject.className = "delete";
+    deleteProject.className = "delete-project";
     deleteProject.textContent = "delete";
     deleteProject.onclick = () => {
       this.projectManager.deleteProject(index);

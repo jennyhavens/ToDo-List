@@ -1,4 +1,3 @@
-import { TaskManager } from "./task-manager.js";
 import { Task } from "./task-manager.js";
 
 export class TaskUI {
@@ -69,7 +68,7 @@ export class TaskUI {
     taskDiv.appendChild(notesElement);
 
     const editButton = document.createElement("button");
-    editButton.className = "edit";
+    editButton.className = "edit-task";
     editButton.textContent = "edit";
     editButton.onclick = () => {
       this.taskManager.setEditIndex(index);
@@ -79,7 +78,7 @@ export class TaskUI {
     taskDiv.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "delete";
+    deleteButton.className = "delete-task";
     deleteButton.textContent = "delete";
     deleteButton.onclick = () => {
       this.taskManager.deleteTask(index);
