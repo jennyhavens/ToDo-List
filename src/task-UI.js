@@ -1,46 +1,7 @@
-export class Task {
-  constructor(title, description, dueDate, priority, notes) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.notes = notes;
-  }
-}
+import { TaskManager } from "./task-manager.js";
+import { Task } from "./task-manager.js";
 
-export class TaskManager {
-  constructor() {
-    this.tasks = [];
-    this.currentEditIndex = null;
-  }
-
-  addTask(task) {
-    if (this.currentEditIndex !== null) {
-      this.tasks[this.currentEditIndex] = task;
-    } else {
-      this.tasks.push(task);
-    }
-    this.currentEditIndex = null;
-  }
-
-  deleteTask(index) {
-    this.tasks.splice(index, 1);
-  }
-
-  getTasks() {
-    return this.tasks;
-  }
-
-  setEditIndex(index) {
-    this.currentEditIndex = index;
-  }
-
-  resetEditIndex() {
-    this.currentEditIndex = null;
-  }
-}
-
-export class UI {
+export class TaskUI {
   constructor(taskManager) {
     this.taskManager = taskManager;
     this.taskList = document.getElementById("taskList");
@@ -91,7 +52,6 @@ export class UI {
     taskDiv.className = "task";
     taskDiv.dataset.index = index;
 
-    // Create task elements
     const titleElement = document.createElement("h3");
     titleElement.textContent = task.title;
     taskDiv.appendChild(titleElement);
@@ -108,7 +68,6 @@ export class UI {
     notesElement.textContent = task.notes;
     taskDiv.appendChild(notesElement);
 
-    // Edit button
     const editButton = document.createElement("button");
     editButton.className = "edit";
     editButton.textContent = "edit";
@@ -119,7 +78,6 @@ export class UI {
     };
     taskDiv.appendChild(editButton);
 
-    // Delete button
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete";
     deleteButton.textContent = "delete";
@@ -145,8 +103,3 @@ export class UI {
     this.taskManager.resetEditIndex();
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const taskManager = new TaskManager();
-  const ui = new UI(taskManager);
-});

@@ -1,4 +1,4 @@
-import "./task-card.js";
+import "./task-manager.js";
 
 const mainStage = document.createElement("div");
 mainStage.className = "main-stage";

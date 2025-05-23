@@ -20,7 +20,7 @@
 
     <dialog id="taskDialog" class="dialog">
       <div class="dialog-content">
-        <span class="close" id="closeDialog">&times;</span>
+        <span id="closeDialog" class="close">&times;</span>
         <h2>Create Task</h2>
         <form id="taskForm">
           <label for="title">Title:</label>
@@ -43,7 +43,26 @@
           <label for="notes">Notes:</label>
           <textarea class="input" id="notes"></textarea>
 
-          <button class="submit" type="submit">Add Task</button>
+          <button class="submit" type="submit" id="submitTaskBtn">Save</button>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="projectDialog" class="dialog">
+      <div class="project-content">
+        <span id="closeProjectBtn" class="close">&times;</span>
+        <h2>Create New Project</h2>
+        <form id="projectForm">
+          <input
+            class="input"
+            type="text"
+            id="projectName"
+            placeholder="Project Name"
+            required
+          />
+          <button class="submit" type="submit" id="submitProjectBtn">
+            Create Project
+          </button>
         </form>
       </div>
     </dialog>

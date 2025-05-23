@@ -1,47 +1,40 @@
 const sideBar = document.createElement("div");
 sideBar.classList.add("sidebar");
 
-const taskNav = document.createElement("div");
-taskNav.classList.add("task-nav");
+const allTasksSection = document.createElement("div");
+allTasksSection.classList.add("all-tasks-section");
 
-const homeBtn = document.createElement("button");
-homeBtn.classList.add("home-btn");
-homeBtn.textContent = "Home";
+const allTasks = document.createElement("button");
+allTasks.className = "all-tasks-btn";
+allTasks.textContent = "All Tasks";
 
-const myTasks = document.createElement("button");
-myTasks.classList.add("my-tasks");
-myTasks.textContent = "My Tasks";
+const newProject = document.createElement("button");
+newProject.className = "new-project-btn";
+newProject.textContent = "New Project";
 
-const calView = document.createElement("button");
-calView.classList.add("cal-view");
-calView.textContent = "Calendar";
+const projectDialog = document.createElement("dialog");
+projectDialog.className = "project-dialog";
 
-const projContainer = document.createElement("div");
-projContainer.classList.add("project-container");
+const projectHeader = document.createElement("h2");
+projectHeader.className = "project-header";
+projectHeader.textContent = "Projects: ";
 
-const projectHead = document.createElement("h2");
-projectHead.classList.add("project-head");
-projectHead.textContent = "Projects";
+const projectContainer = document.createElement("div");
+projectContainer.className = "project-container";
 
-const projectList = ["Project 1", "Project 2", "Project 3"];
-const projects = document.createElement("ul");
-projects.classList.add("projects");
-projectList.forEach((newProject) => {
-  const div = document.createElement("div");
-  const listBtns = document.createElement("button");
-  projects.appendChild(div);
-  listBtns.textContent = newProject;
-  div.appendChild(listBtns);
-});
+const projectList = document.createElement("div");
+projectList.className = "project-list";
 
-sideBar.appendChild(taskNav);
-sideBar.appendChild(projContainer);
+sideBar.appendChild(allTasksSection);
+sideBar.appendChild(projectContainer);
 
-taskNav.appendChild(homeBtn);
-taskNav.appendChild(myTasks);
-taskNav.appendChild(calView);
+allTasksSection.appendChild(allTasks);
 
-projContainer.appendChild(projectHead);
-projContainer.appendChild(projects);
+projectContainer.appendChild(projectHeader);
+projectContainer.appendChild(newProject);
+projectContainer.appendChild(projectList);
 
 export { sideBar };
+export { allTasks };
+export { newProject };
+export { projectContainer };
