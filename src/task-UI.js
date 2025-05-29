@@ -12,8 +12,10 @@ export class TaskUI {
     console.error(`${this.taskList} -- ${projectManager}`);
     this.projectManager = projectManager;
     console.error(`${this.projectManager}`);
+
     this.setupEventListeners();
     this.refreshProjectList();
+    this.renderTasks(); // Initial render of tasks
   }
 
   refreshProjectList() {
@@ -72,7 +74,7 @@ export class TaskUI {
     });
   }
 
-  renderTasks(projectId) {
+  renderTasks(projectId = null) {
     this.taskList.innerHTML = "";
     const tasks = this.taskManager.getTasks(projectId);
 
@@ -83,23 +85,17 @@ export class TaskUI {
       return;
     }
 
-    tasks.forEach((task, index) => {
-      const taskDiv = this.createTaskElement(task, index);
+    tasks.forEach((task) => {
+      //removed index
+      const taskDiv = this.createTaskElement(task);
       this.taskList.appendChild(taskDiv);
     });
   }
-  //   renderTasks() {
-  //     this.taskList.innerHTML = "";
-  //     this.taskManager.getTasks().forEach((task, index) => {
-  //       const taskDiv = this.createTaskElement(task, index);
-  //       this.taskList.appendChild(taskDiv);
-  //     });
-  //   }
 
-  createTaskElement(task, index) {
+  createTaskElement(task) {
     const taskDiv = document.createElement("div");
     taskDiv.className = "task";
-    taskDiv.dataset.index = index;
+    taskDiv.dataset.id = task.id; //need a unique id for the tasks
 
     const titleElement = this.createElementWithText("h3", task.title);
     const priorityElement = this.createElementWithText("h4", task.priority);
@@ -117,8 +113,8 @@ export class TaskUI {
       dueDateElement,
       notesElement
     );
-    taskDiv.appendChild(this.createEditButton(index));
-    taskDiv.appendChild(this.createDeleteButton(index));
+    taskDiv.appendChild(this.createEditButton(task.id)); //pass id
+    taskDiv.appendChild(this.createDeleteButton(task.id)); //pass id
 
     return taskDiv;
   }
@@ -129,40 +125,53 @@ export class TaskUI {
     return element;
   }
 
-  createEditButton(index) {
+  createEditButton(taskId) {
+    //changed from index to taskId
     const editButton = document.createElement("button");
     editButton.className = "edit-task";
     editButton.textContent = "edit";
     editButton.onclick = () => {
-      this.showTaskModal(index);
+      this.showTaskModal(taskId);
     };
     return editButton;
   }
 
-  showTaskModal(editIndex = -1, clone = false) {
-    if (clone) {
-      //We don't support cloning yet bruv, but if we did just grab the existing task info and clone it.
-      this.populateForm(this.taskManager.getTasks()[editIndex]);
-    } else if (editIndex > -1) {
-      //If this is trying to edit an existing task, do so.
-      this.taskManager.setEditIndex(editIndex);
-      this.populateForm(this.taskManager.getTasks()[editIndex]);
+  showTaskModal(taskId) {
+    if (taskId) {
+      const task = this.taskManager.getTaskById(taskId); // Get task by ID
+      if (task) {
+        this.populateForm(task);
+      }
     } else {
-      //If it's a new task, reset the form.
       this.resetForm();
     }
-    //Always refresh the project list and show the actual UI.
     this.refreshProjectList();
     this.taskDialog.showModal();
   }
 
-  createDeleteButton(index) {
+  //showTaskModal(taskId = null, clone = false) {
+  // if (clone) {
+  //   //We don't support cloning yet bruv, but if we did just grab the existing task info and clone it.
+  //   this.populateForm(this.taskManager.getTasks()[editIndex]);
+  // } else if (editIndex > -1) {
+  //   //If this is trying to edit an existing task, do so.
+  //   this.taskManager.setEditIndex(editIndex);
+  //   this.populateForm(this.taskManager.getTasks()[editIndex]);
+  // } else {
+  //   //If it's a new task, reset the form.
+  //   this.resetForm();
+  // }
+  // //Always refresh the project list and show the actual UI.
+  // this.refreshProjectList();
+  // this.taskDialog.showModal();
+
+  createDeleteButton(taskId) {
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete-task";
     deleteButton.textContent = "delete";
     deleteButton.onclick = () => {
-      this.taskManager.deleteTask(index);
-      this.renderTasks(this.taskManager.getTasks()[index].project);
+      this.taskManager.deleteTask(taskId);
+      this.renderTasks(); //re-render after deletion  //(this.taskManager.getTasks()[index].project)
     };
     return deleteButton;
   }
@@ -173,10 +182,12 @@ export class TaskUI {
     document.getElementById("dueDate").value = task.dueDate;
     document.getElementById("priority").value = task.priority;
     document.getElementById("notes").value = task.notes;
+    document.getElementById("projectDropdown").value = task.projectID; //Set project dropdown
   }
 
   resetForm() {
     this.taskForm.reset();
-    this.taskManager.resetEditIndex();
+    // this.taskManager.resetEditIndex();
+    document.getElementById("projectDropdown").value = ""; //reset project selection
   }
 }

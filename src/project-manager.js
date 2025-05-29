@@ -40,8 +40,8 @@ export class ProjectManager {
     return this.projects;
   }
 
-  setEditIndex(index) {
-    this.currentEditIndex = index;
+  setEditIndex(projectId) {
+    this.currentEditIndex = projectId;
   }
 
   resetEditIndex() {

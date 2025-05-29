@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   _taskUI = new TaskUI(_taskManager, _projectManager);
   _projectUI = new ProjectUI(_projectManager, _taskManager, _taskUI);
 
-  //Add thie things here.
+  //Add the things here.
 });
 
 document.addEventListener("DOMContentLoaded", () => {});

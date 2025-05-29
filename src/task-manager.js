@@ -1,5 +1,6 @@
 export class Task {
   constructor(projectID, title, description, dueDate, priority, notes) {
+    this.id = crypto.randomUUID();
     this.projectID = projectID;
     this.title = title;
     this.description = description;
@@ -12,40 +13,46 @@ export class Task {
 export class TaskManager {
   constructor() {
     this.tasks = [];
-    this.currentEditIndex = null;
+    this.currentEditId = null;
   }
 
   addTask(task) {
-    if (this.currentEditIndex !== null) {
-      this.tasks[this.currentEditIndex] = task;
+    if (!(task instanceof Task)) {
+      throw new Error("Invalid task: must be an instance of Task.");
+    }
+
+    if (this.currentEditId !== null) {
+      const index = this.tasks.findIndex((t) => t.id === this.currentEditId);
+      if (index !== -1) {
+        task.id = this.currentEditId;
+        this.tasks[index] = task;
+      } else {
+        throw new Error("Task to edit not found.");
+      }
     } else {
       this.tasks.push(task);
     }
-    this.currentEditIndex = null;
   }
 
-  deleteTask(index) {
-    this.tasks.splice(index, 1);
+  deleteTask(id) {
+    this.tasks = this.tasks.filter((task) => task.id !== id); // Filter out the task with the given ID
   }
 
   getTasks(projectID) {
-    if (projectID !== undefined) {
-      let filteredTaskList = this.tasks.filter(
-        (task) => task.projectID === projectID
-      );
-      return filteredTaskList;
-    } else {
-      return this.tasks;
-    }
-
-    return this.tasks;
+    return projectID !== undefined
+      ? this.tasks.filter((task) => task.projectID === projectID)
+      : this.tasks; // Return filtered or all tasks
   }
 
-  setEditIndex(index) {
-    this.currentEditIndex = index;
+  getTaskById(id) {
+    return this.tasks.find((task) => task.id === id); // Return the task object
   }
 
-  resetEditIndex() {
-    this.currentEditIndex = null;
+  setEditIndex(id) {
+    this.currentEditId = id;
+  }
+
+  resetEditId() {
+    this.currentEditId = null;
   }
 }
