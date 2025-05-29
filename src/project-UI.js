@@ -91,6 +91,6 @@ export class ProjectUI {
 
   resetForm() {
     this.projectForm.reset();
-    this.projectManager.resetEditIndex();
+    this.projectManager.resetEditId();
   }
 }

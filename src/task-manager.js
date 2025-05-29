@@ -17,10 +17,6 @@ export class TaskManager {
   }
 
   addTask(task) {
-    if (!(task instanceof Task)) {
-      throw new Error("Invalid task: must be an instance of Task.");
-    }
-
     if (this.currentEditId !== null) {
       const index = this.tasks.findIndex((t) => t.id === this.currentEditId);
       if (index !== -1) {

@@ -14,19 +14,31 @@ export class Project {
 
 export class ProjectManager {
   constructor() {
-    this.currentEditIndex = null;
     this.projects = [];
+    this.currentEditId = null;
   }
 
   addProject(projectName) {
-    const project = new Project(projectName);
-    if (this.currentEditIndex !== null) {
-      this.projects[this.currentEditIndex] = project;
+    if (this.currentEditId != null) {
+      const index = this.projects.findIndex((p) => p.id === this.currentEditId);
+      if (index !== -1) {
+        this.projects[index] = projectName;
+        this.resetEditId();
+      } else {
+        throw new Error("Project to edit not found.");
+      }
     } else {
-      this.projects.push(project);
+      this.projects.push(projectName);
     }
-    this.resetEditIndex();
   }
+
+  //   const project = new Project(projectName);
+  //   if (this.currentEditIndex !== null) {
+  //     this.projects[this.currentEditIndex] = project;
+  //   } else {
+  //     this.projects.push(project);
+  //   }
+  //   this.resetEditIndex();
 
   deleteProject(index) {
     if (index >= 0 && index < this.projects.length) {
@@ -40,11 +52,15 @@ export class ProjectManager {
     return this.projects;
   }
 
-  setEditIndex(projectId) {
-    this.currentEditIndex = projectId;
+  getProjectById(id) {
+    return this.tasks.find((project) => project.id === id);
   }
 
-  resetEditIndex() {
-    this.currentEditIndex = null;
+  setEditIndex(projectId) {
+    this.currentEditId = projectId;
+  }
+
+  resetEditId() {
+    this.currentEditId = null;
   }
 }
