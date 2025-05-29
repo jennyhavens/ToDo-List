@@ -24,8 +24,8 @@ export class TaskManager {
     if (this.currentEditId !== null) {
       const index = this.tasks.findIndex((t) => t.id === this.currentEditId);
       if (index !== -1) {
-        task.id = this.currentEditId;
         this.tasks[index] = task;
+        this.resetEditId();
       } else {
         throw new Error("Task to edit not found.");
       }

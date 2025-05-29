@@ -138,9 +138,10 @@ export class TaskUI {
 
   showTaskModal(taskId) {
     if (taskId) {
-      const task = this.taskManager.getTaskById(taskId); // Get task by ID
+      const task = this.taskManager.getTaskById(taskId);
       if (task) {
         this.populateForm(task);
+        this.taskManager.setEditIndex(taskId);
       }
     } else {
       this.resetForm();
@@ -148,22 +149,6 @@ export class TaskUI {
     this.refreshProjectList();
     this.taskDialog.showModal();
   }
-
-  //showTaskModal(taskId = null, clone = false) {
-  // if (clone) {
-  //   //We don't support cloning yet bruv, but if we did just grab the existing task info and clone it.
-  //   this.populateForm(this.taskManager.getTasks()[editIndex]);
-  // } else if (editIndex > -1) {
-  //   //If this is trying to edit an existing task, do so.
-  //   this.taskManager.setEditIndex(editIndex);
-  //   this.populateForm(this.taskManager.getTasks()[editIndex]);
-  // } else {
-  //   //If it's a new task, reset the form.
-  //   this.resetForm();
-  // }
-  // //Always refresh the project list and show the actual UI.
-  // this.refreshProjectList();
-  // this.taskDialog.showModal();
 
   createDeleteButton(taskId) {
     const deleteButton = document.createElement("button");
