@@ -1,5 +1,6 @@
 export class Task {
-  constructor(title, description, dueDate, priority, notes) {
+  constructor(projectID, title, description, dueDate, priority, notes) {
+    this.projectID = projectID;
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -27,7 +28,16 @@ export class TaskManager {
     this.tasks.splice(index, 1);
   }
 
-  getTasks() {
+  getTasks(projectID) {
+    if (projectID !== undefined) {
+      let filteredTaskList = this.tasks.filter(
+        (task) => task.projectID === projectID
+      );
+      return filteredTaskList;
+    } else {
+      return this.tasks;
+    }
+
     return this.tasks;
   }
 

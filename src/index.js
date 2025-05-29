@@ -7,16 +7,23 @@ import { ProjectUI } from "./project-UI.js";
 
 import "./task-manager.js";
 import "./styles.css";
+let _taskManager = null;
+let _projectManager = null;
+let _taskUI = null;
+let _projectUI = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const taskManager = new TaskManager();
-  const taskUI = new TaskUI(taskManager);
+  //Assign the task manager to a variable that can be used elsewhere later.
+  _taskManager = new TaskManager();
+  _projectManager = new ProjectManager();
+
+  _taskUI = new TaskUI(_taskManager, _projectManager);
+  _projectUI = new ProjectUI(_projectManager, _taskManager, _taskUI);
+
+  //Add thie things here.
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const projectManager = new ProjectManager();
-  const projectUI = new ProjectUI(projectManager);
-});
+document.addEventListener("DOMContentLoaded", () => {});
 
 const cont = document.querySelector(".content");
 

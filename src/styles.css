@@ -111,11 +111,10 @@ button:hover {
   text-align: center;
 }
 
-.edit-project,
+/* .edit-project,
 .delete-project,
 .add-task {
-  align-self: center;
-}
+} */
 
 .main-stage {
   grid-column: 2 / 3;

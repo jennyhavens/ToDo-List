@@ -23,11 +23,16 @@
         <span id="closeDialog" class="close">&times;</span>
         <h2>Create Task</h2>
         <form id="taskForm">
+          <label for="projectDropdown">Project:</label>
+          <select class="input" id="projectDropdown">
+            <option value="">Select a Project</option>
+          </select>
+
           <label for="title">Title:</label>
           <input class="input" type="text" id="title" required />
 
           <label for="description">Description:</label>
-          <textarea class="input" id="description" required></textarea>
+          <textarea class="input" id="description"></textarea>
 
           <label for="dueDate">Due Date:</label>
           <input class="input" type="date" id="dueDate" required />

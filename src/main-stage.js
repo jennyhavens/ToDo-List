@@ -8,10 +8,6 @@ allTasks.onclick = () => {
   alert("I'm working");
 };
 
-projectName.onClick = () => {
-  alert("I'm working");
-};
-
 mainStage.appendChild(taskList);
 
 export { mainStage };
