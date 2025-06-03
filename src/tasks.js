@@ -40,6 +40,10 @@ export class TaskManager {
       : this.tasks; // Return filtered or all tasks
   }
 
+  getAllTasks() {
+    return this.tasks;
+  }
+
   getTaskById(id) {
     return this.tasks.find((task) => task.id === id); // Return the task object
   }

@@ -1,12 +1,10 @@
-import { TaskManager } from "./task-manager.js";
+import { TaskManager } from "./tasks.js";
 import { TaskUI } from "./task-UI.js";
-import { sideBar } from "./sidebar.js";
-import { mainStage } from "./main-stage.js";
-import { ProjectManager } from "./project-manager.js";
+import { ProjectManager } from "./projects.js";
 import { ProjectUI } from "./project-UI.js";
 
-import "./task-manager.js";
 import "./styles.css";
+
 let _taskManager = null;
 let _projectManager = null;
 let _taskUI = null;
@@ -26,8 +24,5 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {});
 
 const cont = document.querySelector(".content");
-
-cont.appendChild(sideBar);
-cont.appendChild(mainStage);
 
 console.log("I'm working");

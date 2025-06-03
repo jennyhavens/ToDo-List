@@ -1,12 +1,9 @@
-const sideBar = document.createElement("div");
-sideBar.classList.add("sidebar");
-
 const allTasksSection = document.createElement("div");
 allTasksSection.classList.add("all-tasks-section");
 
-const allTasks = document.createElement("button");
-allTasks.className = "all-tasks-btn";
-allTasks.textContent = "All Tasks";
+const allTasksBtn = document.createElement("button");
+allTasksBtn.className = "all-tasks-btn";
+allTasksBtn.textContent = "All Tasks";
 
 const newProject = document.createElement("button");
 newProject.className = "new-project-btn";
@@ -28,13 +25,12 @@ projectList.className = "project-list";
 sideBar.appendChild(allTasksSection);
 sideBar.appendChild(projectContainer);
 
-allTasksSection.appendChild(allTasks);
+allTasksSection.appendChild(allTasksBtn);
 
 projectContainer.appendChild(projectHeader);
 projectContainer.appendChild(newProject);
 projectContainer.appendChild(projectList);
 
-export { sideBar };
-export { allTasks };
+export { allTasksBtn };
 export { newProject };
 export { projectContainer };

@@ -1,5 +1,4 @@
-import { Project } from "./project-manager.js";
-import { TaskUI } from "./task-UI.js";
+import { Project } from "./projects.js";
 
 export class ProjectUI {
   constructor(projectManager, taskManager, taskUI) {

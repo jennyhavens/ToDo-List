@@ -1,5 +1,5 @@
-import { Task } from "./task-manager.js";
-import { ProjectManager } from "./project-manager.js";
+import { Task } from "./tasks.js";
+import { allTasksBtn } from "./sidebar.js";
 
 export class TaskUI {
   constructor(taskManager, projectManager) {
@@ -9,11 +9,10 @@ export class TaskUI {
     this.taskForm = document.getElementById("taskForm");
     this.openDialogBtn = document.getElementById("openDialog");
     this.closeDialogBtn = document.getElementById("closeDialog");
-    console.error(`${this.taskList} -- ${projectManager}`);
+    // this.allTasksBtn = allTasksBtn; //document.getElementsByClassName("all-tasks-btn")[0];
     this.projectManager = projectManager;
-    console.error(`${this.projectManager}`);
 
-    this.setupEventListeners();
+    this.addEventListeners();
     this.refreshProjectList();
     this.renderTasks(); // Initial render of tasks
   }
@@ -25,23 +24,37 @@ export class TaskUI {
     this.populateProjectDropdown();
   }
 
-  setupEventListeners() {
-    this.openDialogBtn.onclick = () => {
-      this.showTaskModal();
-    };
+  addEventListeners() {
+    if (!this.openDialogBtn) {
+      console.error("Open Dialog button not found");
+      return;
+    }
+    if (!this.closeDialogBtn) {
+      console.error("Close Dialog button not found");
+      return;
+    }
+    if (!this.taskForm) {
+      console.error("Task Form not found");
+      return;
+    }
+    if (!allTasksBtn) {
+      console.error("All Tasks button not found");
+      return;
+    }
 
-    this.closeDialogBtn.onclick = () => {
-      this.taskDialog.close();
-    };
-
-    this.taskForm.onsubmit = (event) => {
+    this.openDialogBtn.addEventListener("click", () => this.showTaskModal());
+    this.closeDialogBtn.addEventListener("click", () =>
+      this.taskDialog.close()
+    );
+    this.taskForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const task = this.createTaskFromForm();
       this.taskManager.addTask(task);
       this.renderTasks();
       this.resetForm();
       this.taskDialog.close();
-    };
+    });
+    allTasksBtn.addEventListener("click", () => this.renderTasks("all"));
   }
 
   createTaskFromForm() {
@@ -76,11 +89,18 @@ export class TaskUI {
 
   renderTasks(projectId = null) {
     this.taskList.innerHTML = "";
-    const tasks = this.taskManager.getTasks(projectId);
+
+    const tasks =
+      projectId === "all"
+        ? this.taskManager.getAllTasks()
+        : this.taskManager.getTasks(projectId);
 
     if (tasks.length === 0) {
       const noTasksMessage = document.createElement("div");
-      noTasksMessage.textContent = "No tasks available for this project.";
+      noTasksMessage.textContent =
+        projectId === "all"
+          ? "No tasks available."
+          : "No tasks available for this project.";
       this.taskList.appendChild(noTasksMessage);
       return;
     }
@@ -156,7 +176,7 @@ export class TaskUI {
     deleteButton.textContent = "delete";
     deleteButton.onclick = () => {
       this.taskManager.deleteTask(taskId);
-      this.renderTasks(); //re-render after deletion  //(this.taskManager.getTasks()[index].project)
+      this.renderTasks();
     };
     return deleteButton;
   }
