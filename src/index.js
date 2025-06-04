@@ -19,7 +19,7 @@ function initializeApp() {
   _taskUI = new TaskUI(_taskManager, _projectManager);
   _projectUI = new ProjectUI(_projectManager, _taskManager, _taskUI);
 
-  _taskUI.renderTasks();
+  _taskUI.renderTasks("all");
   _projectUI.renderProjects();
 }
 

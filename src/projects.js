@@ -19,11 +19,11 @@ export class ProjectManager {
   //TODO: This is not the "projectName" but rather the project Object directly which has a reference to the name/other variables.
   //If you have other properties in the project object that need to be "updated" from edit mode you need to
   // update each property direcctly in this edit mode.
-  addProject(projectName) {
+  addProject(projectObject) {
     if (this.currentEditId != null) {
       const index = this.projects.findIndex((p) => p.id === this.currentEditId);
       if (index !== -1) {
-        this.projects[index].projectName = projectName.projectName;
+        this.projects[index].projectName = projectObject.projectName;
         //If you add more project vars, like "type" or "owner" etc that need to be updated, do so here
         //I.e.: this.projects[index].type = projectName.type.
         this.resetEditId();
@@ -31,7 +31,7 @@ export class ProjectManager {
         throw new Error("Project to edit not found.");
       }
     } else {
-      this.projects.push(projectName);
+      this.projects.push(projectObject);
     }
     localStorage.setItem("projects", JSON.stringify(this.projects));
   }

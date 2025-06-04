@@ -7,6 +7,7 @@ export class Task {
     this.dueDate = dueDate;
     this.priority = priority;
     this.notes = notes;
+    this.completed = false;
   }
 }
 
@@ -33,6 +34,16 @@ export class TaskManager {
 
   deleteTask(id) {
     this.tasks = this.tasks.filter((task) => task.id !== id); // Filter out the task with the given ID
+  }
+
+  toggleTaskCompletion(id) {
+    const task = this.getTaskById(id);
+    if (task) {
+      task.completed = !task.completed;
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    } else {
+      throw new Error("Task not found.");
+    }
   }
 
   getTasks(projectID) {

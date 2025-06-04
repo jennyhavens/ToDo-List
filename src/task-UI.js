@@ -104,8 +104,10 @@ export class TaskUI {
     }
 
     tasks.forEach((task) => {
-      //removed index
       const taskDiv = this.createTaskElement(task);
+      taskDiv.className = `task-div ${
+        task.completed ? "completed" : ""
+      } priority-${task.priority}`;
       this.taskList.appendChild(taskDiv);
     });
 
@@ -125,6 +127,15 @@ export class TaskUI {
     );
     const dueDateElement = this.createElementWithText("p", task.dueDate);
     const notesElement = this.createElementWithText("p", task.notes);
+
+    // const completedCheckbox = document.createElement("input");
+    // completedCheckbox.type = "checkbox";
+    // completedCheckbox.checked = task.completed;
+    // completedCheckbox.addEventListener("change", () => {
+    //   task.completed = completedCheckbox.checked; // Update task completed state
+    //   this.taskManager.updateTask(task); // Assuming you have an updateTask method
+    //   this.renderTasks(this.currentProjectId); // Re-render tasks to reflect changes
+    // });
 
     taskDiv.append(
       titleElement,
