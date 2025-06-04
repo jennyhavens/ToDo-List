@@ -10,9 +10,9 @@
     <header class="header">
       <h1 class="logo">ToDo List</h1>
       <div class="nav-buttons">
+        <button id="createTaskBtn">Create Task</button>
         <button id="profile">Profile</button>
-        <button id="reminders">Reminders</button>
-        <button id="openDialog">Create Task</button>
+        <button id="clearStorage">Clear Local Storage</button>
       </div>
     </header>
 
@@ -71,7 +71,10 @@
     </dialog>
     <div class="content">
       <div class="sidebar" id="sideBar"></div>
-      <div class="task-list" id="taskList"></div>
+      <div class="task-container">
+        <button id="addTaskButton">Add Task</button>
+        <div class="task-list" id="taskList"></div>
+      </div>
     </div>
   </body>
 </html>

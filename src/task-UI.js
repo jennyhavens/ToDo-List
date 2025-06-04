@@ -7,54 +7,49 @@ export class TaskUI {
     this.taskList = document.getElementById("taskList");
     this.taskDialog = document.getElementById("taskDialog");
     this.taskForm = document.getElementById("taskForm");
-    this.openDialogBtn = document.getElementById("openDialog");
+    this.createTaskBtn = document.getElementById("createTaskBtn");
+    this.addTaskBtn = document.getElementById("addTaskButton");
     this.closeDialogBtn = document.getElementById("closeDialog");
-    // this.allTasksBtn = allTasksBtn; //document.getElementsByClassName("all-tasks-btn")[0];
     this.projectManager = projectManager;
+    this.currentProjectId = null;
 
     this.addEventListeners();
     this.refreshProjectList();
-    this.renderTasks(); // Initial render of tasks
+    this.renderTasks();
   }
 
   refreshProjectList() {
-    //Get the latest projects array from the project manager to ensure we're up to date.
     this.projects = this.projectManager.getProjects();
-    //Then popuplate the drop down.
     this.populateProjectDropdown();
   }
 
   addEventListeners() {
-    if (!this.openDialogBtn) {
-      console.error("Open Dialog button not found");
-      return;
-    }
-    if (!this.closeDialogBtn) {
-      console.error("Close Dialog button not found");
-      return;
-    }
-    if (!this.taskForm) {
-      console.error("Task Form not found");
-      return;
-    }
-    if (!allTasksBtn) {
-      console.error("All Tasks button not found");
-      return;
-    }
-
-    this.openDialogBtn.addEventListener("click", () => this.showTaskModal());
+    this.createTaskBtn.addEventListener("click", () => this.showTaskModal());
+    this.addTaskBtn.addEventListener("click", () => this.showTaskModal());
     this.closeDialogBtn.addEventListener("click", () =>
       this.taskDialog.close()
     );
+
     this.taskForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const task = this.createTaskFromForm();
       this.taskManager.addTask(task);
-      this.renderTasks();
+      this.renderTasks(this.currentProjectId);
       this.resetForm();
       this.taskDialog.close();
     });
-    allTasksBtn.addEventListener("click", () => this.renderTasks("all"));
+
+    allTasksBtn.addEventListener("click", () => {
+      this.currentProjectId = "all";
+      this.renderTasks(this.currentProjectId);
+    });
+
+    document
+      .getElementById("projectDropdown")
+      .addEventListener("change", (event) => {
+        this.currentProjectId = event.target.value;
+        this.renderTasks(this.currentProjectId);
+      });
   }
 
   createTaskFromForm() {
@@ -70,7 +65,7 @@ export class TaskUI {
 
   populateProjectDropdown() {
     const projectDropdown = document.getElementById("projectDropdown");
-    projectDropdown.innerHTML = ""; // Clear existing options
+    projectDropdown.innerHTML = "";
 
     if (this.projects.length === 0) {
       const option = document.createElement("option");
@@ -81,19 +76,22 @@ export class TaskUI {
 
     this.projects.forEach((projectObject) => {
       const option = document.createElement("option");
-      option.value = projectObject.id; //id must be set on the project for this to work.
+      option.value = projectObject.id;
       option.textContent = projectObject.projectName;
       projectDropdown.appendChild(option);
     });
+
+    projectDropdown.value = this.currentProjectId;
   }
 
   renderTasks(projectId = null) {
+    this.currentProjectId = projectId || this.currentProjectId;
     this.taskList.innerHTML = "";
 
     const tasks =
-      projectId === "all"
+      this.currentProjectId === "all"
         ? this.taskManager.getAllTasks()
-        : this.taskManager.getTasks(projectId);
+        : this.taskManager.getTasks(this.currentProjectId);
 
     if (tasks.length === 0) {
       const noTasksMessage = document.createElement("div");
@@ -110,12 +108,14 @@ export class TaskUI {
       const taskDiv = this.createTaskElement(task);
       this.taskList.appendChild(taskDiv);
     });
+
+    document.getElementById("projectDropdown").value = this.currentProjectId;
   }
 
   createTaskElement(task) {
     const taskDiv = document.createElement("div");
     taskDiv.className = "task";
-    taskDiv.dataset.id = task.id; //need a unique id for the tasks
+    taskDiv.dataset.id = task.id;
 
     const titleElement = this.createElementWithText("h3", task.title);
     const priorityElement = this.createElementWithText("h4", task.priority);
@@ -133,8 +133,8 @@ export class TaskUI {
       dueDateElement,
       notesElement
     );
-    taskDiv.appendChild(this.createEditButton(task.id)); //pass id
-    taskDiv.appendChild(this.createDeleteButton(task.id)); //pass id
+    taskDiv.appendChild(this.createEditButton(task.id));
+    taskDiv.appendChild(this.createDeleteButton(task.id));
 
     return taskDiv;
   }
@@ -146,7 +146,6 @@ export class TaskUI {
   }
 
   createEditButton(taskId) {
-    //changed from index to taskId
     const editButton = document.createElement("button");
     editButton.className = "edit-task";
     editButton.textContent = "edit";
@@ -187,12 +186,11 @@ export class TaskUI {
     document.getElementById("dueDate").value = task.dueDate;
     document.getElementById("priority").value = task.priority;
     document.getElementById("notes").value = task.notes;
-    document.getElementById("projectDropdown").value = task.projectID; //Set project dropdown
+    document.getElementById("projectDropdown").value = task.projectID;
   }
 
   resetForm() {
     this.taskForm.reset();
-    // this.taskManager.resetEditIndex();
-    document.getElementById("projectDropdown").value = ""; //reset project selection
+    document.getElementById("projectDropdown").value = this.currentProjectId;
   }
 }

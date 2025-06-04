@@ -2,6 +2,14 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* background: linear-gradient(
+    135deg,
+    #87ceeb 0%,
+    #98d8e8 25%,
+    #f0f8ff 50%,
+    #fff8dc 75%,
+    #ffe4b5 100%
+  ); */
 }
 
 .header {
@@ -86,7 +94,7 @@ button:hover {
   grid-template-rows: 3fr 10fr;
 }
 
-.task-list {
+.task-container {
   grid-column: 2 / 5;
   background-color: lightpink;
 }

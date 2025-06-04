@@ -12,7 +12,7 @@ export class Task {
 
 export class TaskManager {
   constructor() {
-    this.tasks = [];
+    this.tasks = this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     this.currentEditId = null;
   }
 
@@ -28,6 +28,7 @@ export class TaskManager {
     } else {
       this.tasks.push(task);
     }
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
   }
 
   deleteTask(id) {

@@ -5,24 +5,28 @@ import { ProjectUI } from "./project-UI.js";
 
 import "./styles.css";
 
+const cont = document.querySelector(".content");
+
 let _taskManager = null;
 let _projectManager = null;
 let _taskUI = null;
 let _projectUI = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  //Assign the task manager to a variable that can be used elsewhere later.
+function initializeApp() {
   _taskManager = new TaskManager();
   _projectManager = new ProjectManager();
 
   _taskUI = new TaskUI(_taskManager, _projectManager);
   _projectUI = new ProjectUI(_projectManager, _taskManager, _taskUI);
 
-  //Add the things here.
-});
+  _taskUI.renderTasks();
+  _projectUI.renderProjects();
+}
 
-document.addEventListener("DOMContentLoaded", () => {});
+document.addEventListener("DOMContentLoaded", initializeApp);
 
-const cont = document.querySelector(".content");
-
-console.log("I'm working");
+const clearStorageButton = document.getElementById("clearStorage");
+clearStorageButton.onclick = () => {
+  localStorage.clear();
+  window.location.reload();
+};

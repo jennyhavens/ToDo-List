@@ -12,7 +12,7 @@ export class Project {
 
 export class ProjectManager {
   constructor() {
-    this.projects = [];
+    this.projects = JSON.parse(localStorage.getItem("projects")) || [];
     this.currentEditId = null;
   }
 
@@ -33,6 +33,7 @@ export class ProjectManager {
     } else {
       this.projects.push(projectName);
     }
+    localStorage.setItem("projects", JSON.stringify(this.projects));
   }
 
   deleteProject(id) {
