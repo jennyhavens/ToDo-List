@@ -29,27 +29,30 @@ export class TaskManager {
     } else {
       this.tasks.push(task);
     }
-    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    this.saveToLocalStorage();
   }
 
   deleteTask(id) {
-    this.tasks = this.tasks.filter((task) => task.id !== id); // Filter out the task with the given ID
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+    this.saveToLocalStorage();
   }
 
-  toggleTaskCompletion(id) {
-    const task = this.getTaskById(id);
-    if (task) {
-      task.completed = !task.completed;
-      localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    } else {
-      throw new Error("Task not found.");
+  completeTask(task) {
+    const index = this.tasks.findIndex((t) => t.id === task.id);
+    if (index !== -1) {
+      this.tasks[index].completed = task.completed; // Update the completed status
+      this.saveToLocalStorage(); // Persist the updated task list
     }
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
   }
 
   getTasks(projectID) {
     return projectID !== undefined
       ? this.tasks.filter((task) => task.projectID === projectID)
-      : this.tasks; // Return filtered or all tasks
+      : this.tasks;
   }
 
   getAllTasks() {
@@ -57,7 +60,7 @@ export class TaskManager {
   }
 
   getTaskById(id) {
-    return this.tasks.find((task) => task.id === id); // Return the task object
+    return this.tasks.find((task) => task.id === id);
   }
 
   setEditIndex(id) {

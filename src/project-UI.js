@@ -3,6 +3,7 @@ import { Project } from "./projects.js";
 export class ProjectUI {
   constructor(projectManager, taskManager, taskUI) {
     this.projectManager = projectManager;
+    this.taskManager = taskManager;
     this.taskUI = taskUI;
     this.projectList = document.querySelector(".project-list");
     this.projectDialog = document.getElementById("projectDialog");
@@ -27,18 +28,23 @@ export class ProjectUI {
       event.preventDefault();
       const projectNameInput = document.getElementById("projectName");
       const projectName = projectNameInput.value.trim();
-
-      if (!projectName) {
-        alert("Project name cannot be empty.");
+      if (this.isProjectNameDuplicate(projectName)) {
+        alert("Project with this name already exists.");
         return;
       }
 
-      const project = new Project(projectName);
-      this.projectManager.addProject(project);
+      const projectObject = new Project(projectName);
+      this.projectManager.addProject(projectObject);
       this.renderProjects();
       this.resetForm();
       this.projectDialog.close();
     };
+  }
+
+  isProjectNameDuplicate(projectName) {
+    return this.projectManager
+      .getProjects()
+      .some((project) => project.projectName === projectName);
   }
 
   renderProjects() {

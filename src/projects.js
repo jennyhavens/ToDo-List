@@ -14,38 +14,66 @@ export class ProjectManager {
   constructor() {
     this.projects = JSON.parse(localStorage.getItem("projects")) || [];
     this.currentEditId = null;
+
+    if (this.projects.length === 0) {
+      this.addDefaultProject();
+    }
   }
 
-  //TODO: This is not the "projectName" but rather the project Object directly which has a reference to the name/other variables.
-  //If you have other properties in the project object that need to be "updated" from edit mode you need to
-  // update each property direcctly in this edit mode.
+  addDefaultProject() {
+    const defaultProject = new Project("General Tasks");
+    defaultProject.tasks.push({
+      id: crypto.randomUUID(),
+      title: "Practice task 1",
+      completed: false,
+    });
+    defaultProject.tasks.push({
+      id: crypto.randomUUID(),
+      title: "Practice task 2",
+      completed: false,
+    });
+
+    this.projects.push(defaultProject);
+    this.saveToLocalStorage();
+  }
+
   addProject(projectObject) {
     if (this.currentEditId != null) {
-      const index = this.projects.findIndex((p) => p.id === this.currentEditId);
-      if (index !== -1) {
-        this.projects[index].projectName = projectObject.projectName;
-        //If you add more project vars, like "type" or "owner" etc that need to be updated, do so here
-        //I.e.: this.projects[index].type = projectName.type.
-        this.resetEditId();
-      } else {
-        throw new Error("Project to edit not found.");
-      }
+      this.editProject(projectObject);
     } else {
-      this.projects.push(projectObject);
+      this.createProject(projectObject);
     }
+  }
+
+  createProject(projectObject) {
+    this.projects.push(projectObject);
+    this.saveToLocalStorage();
+  }
+
+  editProject(projectObject) {
+    const index = this.projects.findIndex((p) => p.id === this.currentEditId);
+    if (index !== -1) {
+      this.projects[index].projectName = projectObject.projectName;
+      this.resetEditId();
+      this.saveToLocalStorage();
+    } else {
+      throw new Error("Project to edit not found.");
+    }
+  }
+
+  deleteProject(id) {
+    const index = this.projects.findIndex((project) => project.id === id);
+    if (index !== -1) {
+      this.projects.splice(index, 1);
+      this.saveToLocalStorage();
+    } else {
+      console.error("Project to delete not found.");
+    }
+    this.saveToLocalStorage();
+  }
+
+  saveToLocalStorage() {
     localStorage.setItem("projects", JSON.stringify(this.projects));
-  }
-
-  deleteProject(id) {
-    if (id >= 0 && index < this.projects.length) {
-      this.projects.splice(id, 1);
-    } else {
-      console.error("Invalid index provided for deletion");
-    }
-  }
-
-  deleteProject(id) {
-    this.projects = this.projects.filter((project) => project.id !== id);
   }
 
   getProjects() {
@@ -53,7 +81,7 @@ export class ProjectManager {
   }
 
   getProjectById(id) {
-    return this.tasks.find((project) => project.id === id);
+    return this.projects.find((project) => project.id === id);
   }
 
   setEditIndex(projectId) {
