@@ -12,6 +12,8 @@
   ); */
 }
 
+/* HEADER */
+
 .header {
   background-color: lightblue;
   display: grid;
@@ -31,7 +33,7 @@
 
 .nav-buttons {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-column: 3 / 4;
   gap: 18px;
   align-self: center;
@@ -40,6 +42,98 @@
 button:hover {
   cursor: pointer;
   transition: 0.5s;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  grid-column: 1 / 2;
+  background-color: rgb(250, 250, 175);
+  display: grid;
+  grid-template-rows: 3fr 1fr 10fr;
+}
+
+.all-tasks-section {
+  grid-row: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.project-head-container {
+  grid-row: 2 / 3;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+  margin: 10px;
+  border-bottom: 3px solid black;
+}
+
+.new-project-btn {
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  border: none;
+  margin: 10px;
+}
+
+.new-project-btn:hover {
+  background-color: #00ff00;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.project-container {
+  grid-row: 3 / 4;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-name {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  background-color: transparent;
+  border: none;
+  margin-top: 10px;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* MAIN CONTENT */
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  height: 95vh;
+}
+
+.task-header-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+  margin: 20px;
+}
+
+.task-container {
+  grid-column: 2 / 5;
+  background-color: lightpink;
+}
+
+.add-task-btn {
+  height: 50px;
+  width: 50px;
+  background-color: transparent;
+  border: none;
+  margin: 10px;
+}
+
+.add-task-btn:hover {
+  background-color: #00ff00;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dialog {
@@ -75,24 +169,6 @@ button:hover {
   color: gray;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  height: 95vh;
-}
-
-.sidebar {
-  grid-column: 1 / 2;
-  background-color: rgb(250, 250, 175);
-  display: grid;
-  grid-template-rows: 3fr 10fr;
-}
-
-.task-container {
-  grid-column: 2 / 5;
-  background-color: lightpink;
-}
-
 .task-div {
   background-color: #fff;
   margin: 10px 0;
@@ -113,29 +189,4 @@ button:hover {
 
 .task-div.completed {
   opacity: 0.5;
-}
-
-.all-tasks-section {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-}
-
-.project-container {
-  grid-row: 2 / 3;
-  display: flex;
-  flex-direction: column;
-}
-
-.project-name {
-  display: flex;
-  flex-direction: column;
-  justify-self: center;
-  background-color: transparent;
-  border: none;
-  margin-top: 10px;
-  padding: 10px;
-  font-weight: bold;
-  font-size: 18px;
-  text-align: center;
 }

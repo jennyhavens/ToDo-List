@@ -10,7 +10,6 @@
     <header class="header">
       <h1 class="logo">ToDo List</h1>
       <div class="nav-buttons">
-        <button id="createTaskBtn">Create Task</button>
         <button id="profile">Profile</button>
         <button id="clearStorage">Clear Local Storage</button>
       </div>
@@ -44,7 +43,9 @@
           <label for="notes">Notes:</label>
           <textarea class="input" id="notes"></textarea>
 
-          <button class="submit" type="submit" id="submitTaskBtn">Save</button>
+          <button class="submit" type="submit" id="submitTaskBtn">
+            Submit
+          </button>
         </form>
       </div>
     </dialog>
@@ -62,15 +63,27 @@
             required
           />
           <button class="submit" type="submit" id="submitProjectBtn">
-            Create Project
+            Submit
           </button>
         </form>
       </div>
     </dialog>
     <div class="content">
-      <div class="sidebar" id="sideBar"></div>
+      <div class="sidebar" id="sideBar">
+        <div class="project-head-container">
+            <h2 class="project-header">Projects: </h2>
+            <button class="new-project-btn" id="newProjectBtn" title="New Project">
+                <img src="images/plus.svg" alt="add task" />
+        </div>
+        </button>
+      </div>
       <div class="task-container">
-        <button id="addTaskButton">Add Task</button>
+        <div class="task-header-container">
+            <h1 class="page-header" id="pageHeader"></h1>
+            <button class="add-task-btn" id="addTaskButton" title="Add Task">
+                <img src="images/plus.svg" alt="add task" />
+            </button>
+        </div>
         <div class="task-list" id="taskList"></div>
       </div>
     </div>

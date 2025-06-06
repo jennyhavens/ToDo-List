@@ -8,14 +8,14 @@ export class ProjectUI {
     this.projectList = document.querySelector(".project-list");
     this.projectDialog = document.getElementById("projectDialog");
     this.projectForm = document.getElementById("projectForm");
-    this.newProject = document.querySelector(".new-project-btn");
+    this.newProjectBtn = document.getElementById("newProjectBtn");
     this.closeProjectBtn = document.getElementById("closeProjectBtn");
 
     this.setupEventListeners();
   }
 
   setupEventListeners() {
-    this.newProject.onclick = () => {
+    this.newProjectBtn.onclick = () => {
       this.projectDialog.showModal();
       this.resetForm();
     };
@@ -65,6 +65,8 @@ export class ProjectUI {
     nameElement.textContent = project.projectName;
     nameElement.onclick = () => {
       this.taskUI.renderTasks(project.id);
+      const pageHeader = document.getElementById("pageHeader");
+      pageHeader.textContent = project.projectName;
     };
     projectDiv.appendChild(nameElement);
 

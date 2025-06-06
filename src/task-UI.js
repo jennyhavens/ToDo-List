@@ -7,7 +7,6 @@ export class TaskUI {
     this.taskList = document.getElementById("taskList");
     this.taskDialog = document.getElementById("taskDialog");
     this.taskForm = document.getElementById("taskForm");
-    this.createTaskBtn = document.getElementById("createTaskBtn");
     this.addTaskBtn = document.getElementById("addTaskButton");
     this.closeDialogBtn = document.getElementById("closeDialog");
     this.projectManager = projectManager;
@@ -24,7 +23,6 @@ export class TaskUI {
   }
 
   addEventListeners() {
-    this.createTaskBtn.addEventListener("click", () => this.showTaskModal());
     this.addTaskBtn.addEventListener("click", () => this.showTaskModal());
     this.closeDialogBtn.addEventListener("click", () =>
       this.taskDialog.close()
