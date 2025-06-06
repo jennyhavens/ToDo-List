@@ -1,3 +1,5 @@
+import { TaskUI } from "./task-UI";
+
 export class Project {
   constructor(projectName) {
     this.projectName = projectName;
@@ -25,11 +27,19 @@ export class ProjectManager {
     defaultProject.tasks.push({
       id: crypto.randomUUID(),
       title: "Practice task 1",
+      description: "",
+      dueDate: "",
+      priority: "low",
+      notes: "",
       completed: false,
     });
     defaultProject.tasks.push({
       id: crypto.randomUUID(),
       title: "Practice task 2",
+      description: "",
+      dueDate: "",
+      priority: "low",
+      notes: "",
       completed: false,
     });
 
@@ -65,7 +75,6 @@ export class ProjectManager {
     const index = this.projects.findIndex((project) => project.id === id);
     if (index !== -1) {
       this.projects.splice(index, 1);
-      this.saveToLocalStorage();
     } else {
       console.error("Project to delete not found.");
     }

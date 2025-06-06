@@ -56,11 +56,28 @@ export class TaskUI {
     const projectID = document.getElementById("projectDropdown").value;
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
-    const dueDate = document.getElementById("dueDate").value;
+    const dueDate = this.formatDate(document.getElementById("dueDate").value);
     const priority = document.getElementById("priority").value;
     const notes = document.getElementById("notes").value;
 
     return new Task(projectID, title, description, dueDate, priority, notes);
+  }
+
+  formatDate(dateString) {
+    const date = new Date(dateString);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (date < today) {
+      alert("Date cannot be in the past");
+    } else {
+      return date.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
   }
 
   populateProjectDropdown() {
@@ -93,7 +110,7 @@ export class TaskUI {
         ? this.taskManager.getAllTasks()
         : this.taskManager.getTasks(this.currentProjectId);
 
-    if (tasks.length === 0) {
+    if (!tasks.length) {
       const noTasksMessage = document.createElement("div");
       noTasksMessage.textContent =
         projectId === "all"
@@ -116,40 +133,41 @@ export class TaskUI {
 
   createTaskElement(task) {
     const taskDiv = document.createElement("div");
-    taskDiv.className = "task";
+    taskDiv.className = `task-div ${
+      task.completed ? "completed" : ""
+    } priority-${task.priority}`;
     taskDiv.dataset.id = task.id;
 
-    const titleElement = this.createElementWithText("h3", task.title);
-    const priorityElement = this.createElementWithText("h4", task.priority);
-    const descriptionElement = this.createElementWithText(
-      "p",
-      task.description
+    taskDiv.append(
+      this.createCheckbox(task),
+      this.createElementWithText("h3", task.title),
+      this.createElementWithText("h4", task.priority),
+      this.createElementWithText("p", task.description),
+      this.createElementWithText("p", this.formatDate(task.dueDate)),
+      this.createElementWithText("p", task.notes),
+      this.createEditButton(task.id),
+      this.createDeleteButton(task.id)
     );
-    const dueDateElement = this.createElementWithText("p", task.dueDate);
-    const notesElement = this.createElementWithText("p", task.notes);
 
+    return taskDiv;
+  }
+
+  createCheckbox(task) {
     const completionCheckbox = document.createElement("input");
     completionCheckbox.type = "checkbox";
     completionCheckbox.checked = task.completed;
 
     completionCheckbox.addEventListener("change", () => {
-      task.completed = completionCheckbox.checked; // Update task object
-      this.taskManager.completeTask(task); // Persist the change
-      this.renderTasks(this.currentProjectId);
+      this.toggleTaskCompletion(task);
     });
 
-    taskDiv.append(
-      completionCheckbox,
-      titleElement,
-      priorityElement,
-      descriptionElement,
-      dueDateElement,
-      notesElement
-    );
-    taskDiv.appendChild(this.createEditButton(task.id));
-    taskDiv.appendChild(this.createDeleteButton(task.id));
+    return completionCheckbox;
+  }
 
-    return taskDiv;
+  toggleTaskCompletion(task) {
+    task.completed = !task.completed;
+    this.taskManager.completeTask(task);
+    this.renderTasks(this.currentProjectId);
   }
 
   createElementWithText(tag, text) {
@@ -196,7 +214,7 @@ export class TaskUI {
   populateForm(task) {
     document.getElementById("title").value = task.title;
     document.getElementById("description").value = task.description;
-    document.getElementById("dueDate").value = task.dueDate;
+    document.getElementById("dueDate").value = this.formatDate(task.dueDate);
     document.getElementById("priority").value = task.priority;
     document.getElementById("notes").value = task.notes;
     document.getElementById("projectDropdown").value = task.projectID;
