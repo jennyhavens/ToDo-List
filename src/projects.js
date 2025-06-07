@@ -3,7 +3,6 @@ import { TaskUI } from "./task-UI";
 export class Project {
   constructor(projectName) {
     this.projectName = projectName;
-    this.tasks = [];
     this.id = crypto.randomUUID();
   }
 
@@ -16,37 +15,7 @@ export class ProjectManager {
   constructor() {
     this.projects = JSON.parse(localStorage.getItem("projects")) || [];
     this.currentEditId = null;
-
-    if (this.projects.length === 0) {
-      this.addDefaultProject();
-    }
   }
-
-  addDefaultProject() {
-    const defaultProject = new Project("General Tasks");
-    defaultProject.tasks.push({
-      id: crypto.randomUUID(),
-      title: "Practice task 1",
-      description: "",
-      dueDate: "",
-      priority: "low",
-      notes: "",
-      completed: false,
-    });
-    defaultProject.tasks.push({
-      id: crypto.randomUUID(),
-      title: "Practice task 2",
-      description: "",
-      dueDate: "",
-      priority: "low",
-      notes: "",
-      completed: false,
-    });
-
-    this.projects.push(defaultProject);
-    this.saveToLocalStorage();
-  }
-
   addProject(projectObject) {
     if (this.currentEditId != null) {
       this.editProject(projectObject);

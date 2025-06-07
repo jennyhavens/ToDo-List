@@ -31,10 +31,14 @@ export class TaskUI {
     this.taskForm.addEventListener("submit", (event) => {
       event.preventDefault();
       const task = this.createTaskFromForm();
-      this.taskManager.addTask(task);
-      this.renderTasks(this.currentProjectId);
-      this.resetForm();
-      this.taskDialog.close();
+      if (this.dateInPast(task.dueDate)) {
+        alert("Date cannot be in the past");
+      } else {
+        this.taskManager.addTask(task);
+        this.renderTasks(this.currentProjectId);
+        this.resetForm();
+        this.taskDialog.close();
+      }
     });
 
     allTasksBtn.addEventListener("click", () => {
@@ -54,7 +58,10 @@ export class TaskUI {
     const projectID = document.getElementById("projectDropdown").value;
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
-    const dueDate = this.formatDate(document.getElementById("dueDate").value);
+    const dueDateFormValue = document.getElementById("dueDate").value;
+    // Constructing from string with just date and no time values uses GMT at Midnight causing an offset by one day.
+    // adding the time format to the end of the string fixes the offset.
+    const dueDate = new Date(dueDateFormValue + "T00:00:00");
     const priority = document.getElementById("priority").value;
     const notes = document.getElementById("notes").value;
 
@@ -63,19 +70,30 @@ export class TaskUI {
 
   formatDate(dateString) {
     const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  dateInPast(dateString) {
+    const date = new Date(dateString);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    return date < today;
+  }
 
-    if (date < today) {
-      alert("Date cannot be in the past");
-    } else {
-      return date.toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    }
+  dateInputFormat(dateString) {
+    const date = new Date(dateString);
+    //YYYY-MM-DD format for date input fields.
+    const month = date.getMonth() + 1; //getMonth is zero based so add one.
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${year}-${month >= 10 ? "" : "0"}${month}-${
+      day >= 10 ? "" : "0"
+    }${day}`;
   }
 
   populateProjectDropdown() {
@@ -95,8 +113,11 @@ export class TaskUI {
       option.textContent = projectObject.projectName;
       projectDropdown.appendChild(option);
     });
-
-    projectDropdown.value = this.currentProjectId;
+    const useCurrentProject =
+      this.currentProjectId && this.currentProjectId != "all";
+    projectDropdown.value = useCurrentProject
+      ? this.currentProjectId
+      : this.projects[0].id;
   }
 
   renderTasks(projectId = null) {
@@ -118,6 +139,8 @@ export class TaskUI {
       return;
     }
 
+    tasks.sort((task, task2) => task.completed - task2.completed);
+
     tasks.forEach((task) => {
       const taskDiv = this.createTaskElement(task);
       taskDiv.className = `task-div ${
@@ -127,6 +150,7 @@ export class TaskUI {
     });
 
     document.getElementById("projectDropdown").value = this.currentProjectId;
+    this.updateHeader();
   }
 
   createTaskElement(task) {
@@ -165,7 +189,10 @@ export class TaskUI {
   toggleTaskCompletion(task) {
     task.completed = !task.completed;
     this.taskManager.completeTask(task);
-    this.renderTasks(this.currentProjectId);
+    //Slight delay so that the user can register they marked it complete before it reorders.
+    setTimeout(() => {
+      this.renderTasks(this.currentProjectId);
+    }, 500.0);
   }
 
   createElementWithText(tag, text) {
@@ -212,7 +239,9 @@ export class TaskUI {
   populateForm(task) {
     document.getElementById("title").value = task.title;
     document.getElementById("description").value = task.description;
-    document.getElementById("dueDate").value = this.formatDate(task.dueDate);
+    document.getElementById("dueDate").value = this.dateInputFormat(
+      task.dueDate
+    );
     document.getElementById("priority").value = task.priority;
     document.getElementById("notes").value = task.notes;
     document.getElementById("projectDropdown").value = task.projectID;
@@ -220,6 +249,19 @@ export class TaskUI {
 
   resetForm() {
     this.taskForm.reset();
+    // If this is a new task, go ahead and set the default due date to today
+    // so it's easier to create tasks quickly without having to click the date dropdown.
+    document.getElementById("dueDate").value = this.dateInputFormat(Date.now());
     document.getElementById("projectDropdown").value = this.currentProjectId;
+  }
+
+  updateHeader() {
+    const pageHeader = document.getElementById("pageHeader");
+    //Try and find a project with the current project id.
+    const curProject = this.projects.find(
+      (p) => p.id === this.currentProjectId
+    );
+    //If it exists, use it's name as the header, if not, we're showing all tasks.
+    pageHeader.textContent = curProject ? curProject.projectName : "All Tasks";
   }
 }

@@ -65,8 +65,6 @@ export class ProjectUI {
     nameElement.textContent = project.projectName;
     nameElement.onclick = () => {
       this.taskUI.renderTasks(project.id);
-      const pageHeader = document.getElementById("pageHeader");
-      pageHeader.textContent = project.projectName;
     };
     projectDiv.appendChild(nameElement);
 
