@@ -4,14 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDo List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chocolate+Classical+Sans&display=swap" rel="stylesheet"> -->
   </head>
 
   <body>
     <header class="header">
       <h1 class="logo">ToDo List</h1>
       <div class="nav-buttons">
-        <button id="profile">Profile</button>
-        <button id="clearStorage">Clear Local Storage</button>
+        <button class="profile" id="profile"><img src="./images/account.svg" alt="profile"/></button>
+        <button class="clear-storage-btn" id="clearStorage">Clear Local Storage</button>
       </div>
     </header>
 
@@ -79,10 +85,10 @@
       </div>
       <div class="task-container">
         <div class="task-header-container">
-            <h1 class="page-header" id="pageHeader"></h1>
             <button class="add-task-btn" id="addTaskButton" title="Add Task">
                 <img src="images/plus.svg" alt="add task" />
             </button>
+            <h1 class="page-header" id="pageHeader"></h1>
         </div>
         <div class="task-list" id="taskList"></div>
       </div>

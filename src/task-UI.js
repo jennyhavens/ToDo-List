@@ -129,8 +129,11 @@ export class TaskUI {
         ? this.taskManager.getAllTasks()
         : this.taskManager.getTasks(this.currentProjectId);
 
+    this.updateHeader();
+
     if (!tasks.length) {
       const noTasksMessage = document.createElement("div");
+      noTasksMessage.className = "no-tasks-message";
       noTasksMessage.textContent =
         projectId === "all"
           ? "No tasks available."
@@ -150,7 +153,6 @@ export class TaskUI {
     });
 
     document.getElementById("projectDropdown").value = this.currentProjectId;
-    this.updateHeader();
   }
 
   createTaskElement(task) {
@@ -160,15 +162,32 @@ export class TaskUI {
     } priority-${task.priority}`;
     taskDiv.dataset.id = task.id;
 
-    taskDiv.append(
-      this.createCheckbox(task),
-      this.createElementWithText("h3", task.title),
-      this.createElementWithText("h4", task.priority),
-      this.createElementWithText("p", task.description),
-      this.createElementWithText("p", this.formatDate(task.dueDate)),
-      this.createElementWithText("p", task.notes),
+    const checkboxDiv = document.createElement("div");
+    checkboxDiv.className = "checkbox-div";
+
+    const taskInfoDiv = document.createElement("div");
+    taskInfoDiv.className = "task-info-div";
+
+    const buttonDiv = document.createElement("div");
+    buttonDiv.className = "button-div";
+
+    taskDiv.appendChild(checkboxDiv);
+    taskDiv.appendChild(taskInfoDiv);
+    taskDiv.appendChild(buttonDiv);
+
+    checkboxDiv.appendChild(this.createCheckbox(task));
+
+    buttonDiv.append(
       this.createEditButton(task.id),
       this.createDeleteButton(task.id)
+    );
+
+    taskInfoDiv.append(
+      this.createElementWithText("h3", task.title),
+      this.createElementWithText("h4", `${task.priority} priority`),
+      this.createElementWithText("p", task.description),
+      this.createElementWithText("p", `Due: ${this.formatDate(task.dueDate)}`),
+      this.createElementWithText("p", task.notes)
     );
 
     return taskDiv;
@@ -176,6 +195,7 @@ export class TaskUI {
 
   createCheckbox(task) {
     const completionCheckbox = document.createElement("input");
+    completionCheckbox.className = "completion-checkbox";
     completionCheckbox.type = "checkbox";
     completionCheckbox.checked = task.completed;
 
@@ -204,7 +224,6 @@ export class TaskUI {
   createEditButton(taskId) {
     const editButton = document.createElement("button");
     editButton.className = "edit-task";
-    editButton.textContent = "edit";
     editButton.onclick = () => {
       this.showTaskModal(taskId);
     };
@@ -228,7 +247,6 @@ export class TaskUI {
   createDeleteButton(taskId) {
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete-task";
-    deleteButton.textContent = "delete";
     deleteButton.onclick = () => {
       this.taskManager.deleteTask(taskId);
       this.renderTasks();

@@ -70,7 +70,6 @@ export class ProjectUI {
 
     const editProject = document.createElement("button");
     editProject.className = "edit-project";
-    editProject.textContent = "edit";
     editProject.onclick = () => {
       this.projectManager.setEditIndex(project.id);
       this.populateForm(project);
@@ -80,7 +79,6 @@ export class ProjectUI {
 
     const deleteProject = document.createElement("button");
     deleteProject.className = "delete-project";
-    deleteProject.textContent = "delete";
     deleteProject.onclick = () => {
       this.projectManager.deleteProject(project.id);
       this.renderProjects();

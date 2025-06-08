@@ -2,22 +2,29 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* background: linear-gradient(
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  /* font-family: "Chocolate Classical Sans", sans-serif;
+  font-style: normal; */
+}
+
+html {
+  background: linear-gradient(
     135deg,
     #87ceeb 0%,
     #98d8e8 25%,
     #f0f8ff 50%,
     #fff8dc 75%,
     #ffe4b5 100%
-  ); */
+  );
 }
-
 /* HEADER */
 
 .header {
-  background-color: lightblue;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  border: 2px solid white;
 }
 
 .logo {
@@ -35,22 +42,42 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column: 3 / 4;
-  gap: 18px;
   align-self: center;
+}
+
+.profile {
+  height: 50px;
+  width: 50px;
+  justify-self: end;
+}
+
+.profile,
+.clear-storage-btn {
+  background-color: #f0f8ff;
+  border: none;
+  margin: 10px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
   cursor: pointer;
   transition: 0.5s;
+  background-color: #ffe4b5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* SIDEBAR */
 
 .sidebar {
   grid-column: 1 / 2;
-  background-color: rgb(250, 250, 175);
+  border: 2px solid white;
   display: grid;
-  grid-template-rows: 3fr 1fr 10fr;
+  grid-template-rows: 1fr 1fr 10fr;
 }
 
 .all-tasks-section {
@@ -58,6 +85,21 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-self: center;
+}
+
+.all-tasks-btn {
+  background-color: #f0f8ff46;
+  border: none;
+  margin: 10px;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.all-tasks-btn:hover {
+  background-color: #fcc360;
 }
 
 .project-head-container {
@@ -77,12 +119,6 @@ button:hover {
   margin: 10px;
 }
 
-.new-project-btn:hover {
-  background-color: #00ff00;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .project-container {
   grid-row: 3 / 4;
   display: flex;
@@ -90,16 +126,39 @@ button:hover {
 }
 
 .project-name {
-  display: flex;
-  flex-direction: column;
-  justify-self: center;
-  background-color: transparent;
+  background-color: #f0f8ff46;
   border: none;
-  margin-top: 10px;
-  padding: 10px;
   font-weight: bold;
   font-size: 18px;
   text-align: center;
+  margin: 10px;
+  padding: 20px;
+  font-size: 16px;
+  width: 92%;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-project {
+  background-image: url("./images/delete.svg");
+}
+
+.edit-project {
+  background-image: url("./images/pencil.svg");
+}
+
+.edit-project,
+.delete-project {
+  border: none;
+  background-color: transparent;
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
+}
+
+.edit-project,
+.delete-project:hover {
+  cursor: pointer;
 }
 
 /* MAIN CONTENT */
@@ -112,14 +171,24 @@ button:hover {
 
 .task-header-container {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   margin: 20px;
 }
 
+.page-header {
+  grid-column: 2 / 3;
+  justify-self: center;
+}
+
+.no-tasks-message {
+  font-size: 18px;
+  padding: 30px;
+}
+
 .task-container {
   grid-column: 2 / 5;
-  background-color: lightpink;
+  border: 2px solid white;
 }
 
 .add-task-btn {
@@ -128,12 +197,6 @@ button:hover {
   background-color: transparent;
   border: none;
   margin: 10px;
-}
-
-.add-task-btn:hover {
-  background-color: #00ff00;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dialog {
@@ -170,11 +233,35 @@ button:hover {
 }
 
 .task-div {
+  display: grid;
+  grid-template-columns: 1fr 6fr 1fr;
   background-color: #fff;
-  margin: 10px 0;
+  margin: 10px 10px;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.checkbox-div {
+  justify-self: center;
+  align-self: center;
+}
+
+.task-info-div {
+  display: grid;
+  gap: 10px;
+  grid-column: 2 / 3;
+}
+
+.completion-checkbox {
+  accent-color: #61d1f6;
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.completion-checkbox:hover {
+  cursor: pointer;
 }
 
 .priority-high {
@@ -185,6 +272,24 @@ button:hover {
 }
 .priority-low {
   border-bottom: 4px solid #00ff00;
+}
+
+.delete-task {
+  background-image: url("./images/delete.svg");
+}
+
+.edit-task {
+  background-image: url("./images/pencil.svg");
+}
+
+.edit-task,
+.delete-task {
+  grid-column: 2 / 3;
+  border: none;
+  background-color: transparent;
+  height: 25px;
+  width: 25px;
+  margin: 5px;
 }
 
 .task-div.completed {
