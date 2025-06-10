@@ -162,22 +162,8 @@ export class TaskUI {
       const dueDate1 = task1.dueDate ? new Date(task1.dueDate) : Infinity;
       const dueDate2 = task2.dueDate ? new Date(task2.dueDate) : Infinity;
 
-      return dueDate1 - dueDate2; // Sort by due date
+      return dueDate1 - dueDate2;
     });
-
-    // const priorityOrder = {
-    //   low: 3,
-    //   medium: 2,
-    //   high: 1,
-    // };
-
-    // tasks.sort((task1, task2) => {
-    //   if (task1.completed !== task2.completed) {
-    //     return task1.completed ? 1 : -1;
-    //   }
-
-    //   return priorityOrder[task1.priority] - priorityOrder[task2.priority];
-    // });
 
     tasks.forEach((task) => {
       const taskDiv = this.createTaskElement(task);
