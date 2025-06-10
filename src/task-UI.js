@@ -142,7 +142,42 @@ export class TaskUI {
       return;
     }
 
-    tasks.sort((task, task2) => task.completed - task2.completed);
+    tasks.sort((task1, task2) => {
+      if (task1.completed !== task2.completed) {
+        return task1.completed ? 1 : -1;
+      }
+
+      const priorityOrder = {
+        low: 3,
+        medium: 2,
+        high: 1,
+      };
+
+      const priorityDiff =
+        priorityOrder[task1.priority] - priorityOrder[task2.priority];
+      if (priorityDiff !== 0) {
+        return priorityDiff;
+      }
+
+      const dueDate1 = task1.dueDate ? new Date(task1.dueDate) : Infinity;
+      const dueDate2 = task2.dueDate ? new Date(task2.dueDate) : Infinity;
+
+      return dueDate1 - dueDate2; // Sort by due date
+    });
+
+    // const priorityOrder = {
+    //   low: 3,
+    //   medium: 2,
+    //   high: 1,
+    // };
+
+    // tasks.sort((task1, task2) => {
+    //   if (task1.completed !== task2.completed) {
+    //     return task1.completed ? 1 : -1;
+    //   }
+
+    //   return priorityOrder[task1.priority] - priorityOrder[task2.priority];
+    // });
 
     tasks.forEach((task) => {
       const taskDiv = this.createTaskElement(task);
@@ -248,8 +283,13 @@ export class TaskUI {
     const deleteButton = document.createElement("button");
     deleteButton.className = "delete-task";
     deleteButton.onclick = () => {
-      this.taskManager.deleteTask(taskId);
-      this.renderTasks();
+      const userConfirmed = confirm(
+        "Are you sure you want to delete this task?"
+      );
+      if (userConfirmed) {
+        this.taskManager.deleteTask(taskId);
+        this.renderTasks();
+      }
     };
     return deleteButton;
   }

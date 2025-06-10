@@ -80,8 +80,13 @@ export class ProjectUI {
     const deleteProject = document.createElement("button");
     deleteProject.className = "delete-project";
     deleteProject.onclick = () => {
-      this.projectManager.deleteProject(project.id);
-      this.renderProjects();
+      const userConfirmed = confirm(
+        "Are you sure you want to delete this project?"
+      );
+      if (userConfirmed) {
+        this.projectManager.deleteProject(project.id);
+        this.renderProjects();
+      }
     };
     projectDiv.appendChild(deleteProject);
 

@@ -2,6 +2,7 @@ import { TaskManager } from "./tasks.js";
 import { TaskUI } from "./task-UI.js";
 import { ProjectManager, Project } from "./projects.js";
 import { ProjectUI } from "./project-UI.js";
+import { themeSwitch } from "./darkmode.js";
 
 import "./styles.css";
 
@@ -39,8 +40,9 @@ function addDefaultProject() {
     {
       id: crypto.randomUUID(),
       projectID: defaultProject.id,
-      title: "Practice task 1",
-      description: "",
+      title: "Add a New Project",
+      description:
+        'Find the "+" next to "Projects" and add your own project to get your tasks added and productivity started!',
       dueDate: Date.now() + 8.64e7, // +8.64e+7 is 24 hours in miliseconds, adding it to now results in a due date one day from now.
       priority: "low",
       notes: "",
@@ -49,11 +51,13 @@ function addDefaultProject() {
     {
       id: crypto.randomUUID(),
       projectID: defaultProject.id,
-      title: "Practice task 2",
-      description: "",
+      title: "Add Tasks to Projects",
+      description:
+        'Practice adding tasks to your new project or the General Tasks project. Find the big "+" at the top of the project page and practice adding a task or two.',
       dueDate: Date.now() + 8.64e7, // +8.64e+7 is 24 hours in miliseconds, adding it to now results in a due date one day from now.
       priority: "low",
-      notes: "",
+      notes:
+        'Once your tasks are added you can view them on the project page or "All Tasks" section. Tasks can be edited or deleted once they are created using the icons. If you would like a fresh start you can clear all local storage with the button at the top of the page.',
       completed: false,
     }
   );
@@ -65,6 +69,11 @@ document.addEventListener("DOMContentLoaded", initializeApp);
 
 const clearStorageButton = document.getElementById("clearStorage");
 clearStorageButton.onclick = () => {
-  localStorage.clear();
-  window.location.reload();
+  const userConfirmed = confirm(
+    "Warning: this will clear all projects and tasks that you have made since using this app. Are you sure you want to clear?"
+  );
+  if (userConfirmed) {
+    localStorage.clear();
+    window.location.reload();
+  }
 };
