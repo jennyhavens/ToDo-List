@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>myTasks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+  <script defer src="main.js"></script></head>
+
+  <body class="darkmode">
+    <header class="header">
+      <h1 class="logo">myTasks</h1>
+      <div class="nav-buttons">
+        <button class="theme-switch" id="themeSwitch">
+          <img src="1c3900177461bf58becc.svg" alt="light-or-dark-mode" />
+        </button>
+        <button class="profile" id="profile">
+          <img src="858ace2a4655551cffb8.svg" alt="profile" />
+        </button>
+        <button class="clear-storage-btn" id="clearStorage">
+          Clear Local Storage
+        </button>
+      </div>
+    </header>
+
+    <dialog id="taskDialog" class="dialog">
+      <div class="dialog-content">
+        <span id="closeDialog" class="close">&times;</span>
+        <h2 class="dialog-header">Create Task</h2>
+        <form id="taskForm">
+          <label for="projectDropdown">Project:</label>
+          <select class="input" id="projectDropdown" required></select>
+
+          <label for="title">Title:</label>
+          <input class="input" type="text" id="title" required />
+
+          <label for="description">Description:</label>
+          <textarea class="input" id="description"></textarea>
+
+          <label for="dueDate">Due Date:</label>
+          <input class="input" type="date" id="dueDate" required />
+
+          <label for="priority">Priority:</label>
+          <select class="input" id="priority" required>
+            <option value="">Select Priority</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+
+          <label for="notes">Notes:</label>
+          <textarea class="input" id="notes" rows="2" cols="50"></textarea>
+
+          <button class="submit" type="submit" id="submitTaskBtn">
+            Submit
+          </button>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog id="projectDialog" class="dialog">
+      <div class="dialog-content">
+        <span id="closeProjectBtn" class="close">&times;</span>
+        <h2 class="dialog-header">Create New Project</h2>
+        <form id="projectForm">
+          <input
+            class="input"
+            type="text"
+            id="projectName"
+            placeholder="Project Name"
+            required
+          />
+          <button class="submit" type="submit" id="submitProjectBtn">
+            Submit
+          </button>
+        </form>
+      </div>
+    </dialog>
+    <div class="content">
+      <div class="sidebar" id="sideBar">
+        <div class="project-head-container">
+          <h2 class="project-header">Projects:</h2>
+          <button
+            class="new-project-btn"
+            id="newProjectBtn"
+            title="New Project"
+          >
+            <img src="3cffe9a515498593b872.svg" alt="add task" />
+          </button>
+        </div>
+      </div>
+      <div class="task-container">
+        <div class="task-header-container">
+          <button class="add-task-btn" id="addTaskButton" title="Add Task">
+            <img src="3cffe9a515498593b872.svg" alt="add task" />
+          </button>
+          <h1 class="page-header" id="pageHeader"></h1>
+        </div>
+        <div class="task-list" id="taskList"></div>
+      </div>
+    </div>
+  </body>
+</html>
